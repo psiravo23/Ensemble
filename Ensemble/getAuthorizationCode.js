@@ -1,4 +1,3 @@
-
 import { AuthSession } from 'expo';
 
 const scopesArr = ['user-modify-playback-state','user-read-currently-playing','user-read-playback-state','user-library-modify',
