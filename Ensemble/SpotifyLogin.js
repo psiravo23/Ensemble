@@ -1,43 +1,57 @@
+import React from 'react';
 import { encode as btoa } from 'base-64';
-import { AuthSession } from 'expo';
 import * as AuthSession from 'expo-auth-session';
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, Text, View} from 'react-native';
+
+const credentials = {
+  clientId: 'd952cfadc4804e58bc051c7a80aa062a',
+  clientSecret: '7a555ce02e544391817fab08505a5add',
+  redirectUri: 'https://auth.expo.io/@rchakale/Ensemble'
+}
+
+const scopes = 'user-library-read playlist-modify-private';
+//const scopes = scopesArr.join(' ');
 
 export class SpotifyLoginScreen extends React.Component{
 
+  constructor(props){
+    super(props);
+    this.setUserData = this.setUserData.bind(this);
+    this.getAuthorizationCode = this.getAuthorizationCode.bind(this);
+    this.getTokens = this.getTokens.bind(this);
+    this.refreshTokens = this.refreshTokens.bind(this);
+    this.getUserData = this.getUserData.bind(this);
+  };
+
   async componentDidMount() {
-    const tokenExpirationTime = await getUserData('expirationTime');
+    const tokenExpirationTime = await this.getUserData('expirationTime');
     if (!tokenExpirationTime || new Date().getTime() > tokenExpirationTime) {
-      await refreshTokens();
+      await this.refreshTokens();
     } else {
       this.setState({ accessTokenAvailable: true });
     }
   }
 
-  const setUserData = async((key, value)) {
+  async setUserData (key, value) {
     try {
       await AsyncStorage.setItem({key, value});
     }
     catch (err){
       console.log(err);
     }
-  }
+  };
 
-  const spotifyCredentials = {
-    clientId: 'd952cfadc4804e58bc051c7a80aa062a',
-    clientSecret: '7a555ce02e544391817fab08505a5add',
-    redirectUri: 'https://auth.expo.io/@rchakale/Ensemble'
-  }
-
-
-  const scopesArr = ['user-modify-playback-state','user-read-currently-playing','user-read-playback-state','user-library-modify',
-                     'user-library-read','playlist-read-private','playlist-read-collaborative','playlist-modify-public',
-                     'playlist-modify-private','user-read-recently-played','user-top-read'];
-  const scopes = scopesArr.join(' ');
-
-  const getAuthorizationCode = async () => {
+  async getUserData(key) {
     try {
-      const credentials = await getSpotifyCredentials()
+      await AsyncStorage.getItem({key});
+    }
+    catch (err){
+      console.log(err);
+    }
+  }
+
+  async getAuthorizationCode(){
+    try {
       const redirectUrl = AuthSession.getRedirectUrl();
       const result = await AuthSession.startAsync({
         authUrl:
@@ -55,10 +69,9 @@ export class SpotifyLoginScreen extends React.Component{
     return result.params.code
   }
 
-  const getTokens = async () => {
+  async getTokens(){
     try {
-      const authorizationCode = await getAuthorizationCode()
-      const credentials = await getSpotifyCredentials()
+      const authorizationCode = await this.getAuthorizationCode()
       const credsB64 = btoa(`${credentials.clientId}:${credentials.clientSecret}`);
       const response = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
@@ -79,45 +92,54 @@ export class SpotifyLoginScreen extends React.Component{
       } = responseJson;
 
       const expirationTime = new Date().getTime() + expiresIn * 1000;
-      await setUserData('accessToken', accessToken);
-      await setUserData('refreshToken', refreshToken);
-      await setUserData('expirationTime', expirationTime);
+      await this.setUserData('accessToken', accessToken);
+      await this.setUserData('refreshToken', refreshToken);
+      await this.setUserData('expirationTime', expirationTime);
     } catch (err) {
       console.error(err);
     }
   }
 
-  const refreshTokens = async () => {
-  try {
-    const credentials = await getSpotifyCredentials();
-    const credsB64 = btoa(`${credentials.clientId}:${credentials.clientSecret}`);
-    const refreshToken = await getUserData('refreshToken');
-    const response = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${credsB64}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
-    });
-    const responseJson = await response.json();
-    if (responseJson.error) {
-      await getTokens();
-    } else {
-      const {
-        access_token: newAccessToken,
-        refresh_token: newRefreshToken,
-        expires_in: expiresIn,
-      } = responseJson;
+  async refreshTokens(){
+    try {
+      const credsB64 = btoa(`${credentials.clientId}:${credentials.clientSecret}`);
+      const refreshToken = await this.getUserData('refreshToken');
+      const response = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+          Authorization: `Basic ${credsB64}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
+      });
+      const responseJson = await response.json();
+      if (responseJson.error) {
+        await this.getTokens();
+      } else {
+        const {
+          access_token: newAccessToken,
+          refresh_token: newRefreshToken,
+          expires_in: expiresIn,
+        } = responseJson;
 
-      const expirationTime = new Date().getTime() + expiresIn * 1000;
-      await setUserData('accessToken', newAccessToken);
-      if (newRefreshToken) {
-        await setUserData('refreshToken', newRefreshToken);
-      }
-      await setUserData('expirationTime', expirationTime);
-  } catch (err) {
-    console.error(err)
+        const expirationTime = new Date().getTime() + expiresIn * 1000;
+        await this.setUserData('accessToken', newAccessToken);
+        if (newRefreshToken) {
+          await this.setUserData('refreshToken', newRefreshToken);
+        }
+        await this.setUserData('expirationTime', expirationTime);
+        }
+    } catch (err) {
+      console.error(err)
+    }
   }
-}
+
+  render(){
+    return(
+      <View>
+        <Text> Login </Text>
+      </View>
+    )
+  }
+
 }

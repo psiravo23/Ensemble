@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import {SpotifyLoginScreen as SpotifyLoginScreen} from './SpotifyLogin.js'
 
 export default class App extends React.Component {
-
   render(){
     return (
       <View style={styles.container}>
