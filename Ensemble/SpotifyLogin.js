@@ -16,8 +16,11 @@ export class SpotifyLoginScreen extends React.Component{
 
   constructor(props){
     super(props);
+    this.state = {accessTokenAvailable: false};
+
     this.setUserData = this.setUserData.bind(this);
     this.getAuthorizationCode = this.getAuthorizationCode.bind(this);
+    //this.startAuth = this.startAuth.bind(this);
     this.getTokens = this.getTokens.bind(this);
     this.refreshTokens = this.refreshTokens.bind(this);
     this.getUserData = this.getUserData.bind(this);
@@ -34,7 +37,7 @@ export class SpotifyLoginScreen extends React.Component{
 
   async setUserData (key, value) {
     try {
-      await AsyncStorage.setItem({key, value});
+      await AsyncStorage.setItem(key, value);
     }
     catch (err){
       console.log(err);
@@ -43,7 +46,7 @@ export class SpotifyLoginScreen extends React.Component{
 
   async getUserData(key) {
     try {
-      await AsyncStorage.getItem({key});
+      await AsyncStorage.getItem(key);
     }
     catch (err){
       console.log(err);
@@ -63,15 +66,37 @@ export class SpotifyLoginScreen extends React.Component{
           '&redirect_uri=' +
           encodeURIComponent(redirectUrl),
       })
+        .then(result => result.json())
+          .then(json => {
+            this.setState({code: json.params.code})
+          })
     } catch (err) {
       console.error(err)
     }
-    return result.params.code
+    return this.state.code;
   }
+
+  /*async startAuth(){
+    await AuthSession.startAsync({
+      authUrl:
+        'https://accounts.spotify.com/authorize' +
+        '?response_type=code' +
+        '&client_id=' +
+        credentials.clientId +
+        (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+        '&redirect_uri=' +
+        encodeURIComponent(credentials.redirectUri),
+    })
+    .then(result => {
+      console.log(result);
+    });
+    return result.params.code
+  }*/
 
   async getTokens(){
     try {
       const authorizationCode = await this.getAuthorizationCode()
+      //const authoriztionCode = await this.startAuth();
       const credsB64 = btoa(`${credentials.clientId}:${credentials.clientSecret}`);
       const response = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
@@ -135,9 +160,11 @@ export class SpotifyLoginScreen extends React.Component{
   }
 
   render(){
+
     return(
       <View>
         <Text> Login </Text>
+        <Text> {this.state.accessTokenAvailable} </Text>
       </View>
     )
   }
