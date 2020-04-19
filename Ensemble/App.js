@@ -4,7 +4,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { SpotifyLoginScreen as SpotifyLoginScreen } from './SpotifyLogin.js'
+import {LoginScreen as LoginScreen} from './LoginScreen.js';
+import {InviteScreen as InviteScreen} from './InviteScreen.js';
+import {UserLibrary as UserLibrary} from './UserLibrary.js';
+//import Playlist from './Playlist.js';
 
 const Stack = createStackNavigator();
 
@@ -13,7 +16,10 @@ export default class App extends React.Component {
     return (
       <NavigationContainer>
         <Stack.Navigator intialRouteName="Login">
-          <Stack.Screen name="Login" component={SpotifyLoginScreen}/>
+          <Stack.Screen name="Login" component={LoginScreen}/>
+          <Stack.Screen name="Invite" component={InviteScreen}/>
+          <Stack.Screen name="UserLibrary" component={UserLibrary}/>
+          {/*}//<Stack.Screen name="Playlist" component={Playlist}/>*/}
         </Stack.Navigator>
       </NavigationContainer>
     );
