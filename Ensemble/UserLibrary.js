@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {CountDown} from 'react-native-countdown-component';
 
-
 import {library} from './library.js'
 
 const Tab = createBottomTabNavigator();
@@ -20,7 +19,7 @@ export class UserLibrary extends React.Component{
       <View>
           <View>
             <CountDown
-              until={10}
+              until={route.params.time}
               onFinish={() => alert('finished')}
               size={20}
             />
