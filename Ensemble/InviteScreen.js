@@ -50,7 +50,6 @@ export class InviteScreen extends React.Component{
         {this.state.userList.map(user => (<Text> {user} </Text>))}
         <Text> Enter time limit in minutes </Text>
         <TextInput
-          placeholder="00:00:00"
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           onChangeText={(text) => this.setState({time: text})}
         />

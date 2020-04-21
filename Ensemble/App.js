@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {LoginScreen as LoginScreen} from './LoginScreen.js';
 import {InviteScreen as InviteScreen} from './InviteScreen.js';
 import {UserLibrary as UserLibrary} from './UserLibrary.js';
-//import Playlist from './Playlist.js';
+import {Playlist  as Playlist} from './Playlist.js';
 
 const Stack = createStackNavigator();
 
@@ -19,7 +19,7 @@ export default class App extends React.Component {
           <Stack.Screen name="Login" component={LoginScreen}/>
           <Stack.Screen name="Invite" component={InviteScreen}/>
           <Stack.Screen name="UserLibrary" component={UserLibrary}/>
-          {/*}//<Stack.Screen name="Playlist" component={Playlist}/>*/}
+          <Stack.Screen name="Playlist" component={Playlist}/>
         </Stack.Navigator>
       </NavigationContainer>
     );

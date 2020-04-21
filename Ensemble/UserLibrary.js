@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {CountDown} from 'react-native-countdown-component';
@@ -13,34 +13,78 @@ export class UserLibrary extends React.Component{
   constructor(props){
     super(props);
     var time = this.calcTime(parseInt(this.props.route.params.time));
-    this.state = {timerSet:time};
+    this.state = {timerSet:time, playlist: []};
     this.calcTime = this.calcTime.bind(this);
+    this.addSong = this.addSong.bind(this);
+    this.sendPlaylist = this.sendPlaylist.bind(this);
   }
 
   calcTime(time) {
-    return time * 60;
+    return time * 1;
   }
+
+  addSong(name) {
+    var list = this.state.playlist;
+    list.push(name);
+    this.setState({playlist: list});
+    //console.log(this.state.playlist)
+  }
+
+  sendPlaylist(){
+    var list = this.state.playlist;
+    this.props.navigation.navigate('Playlist', {playlist: list});
+  }
+
+
   render(){
     return(
-      <View style={styles.container}>
-        <CountDown
-              until={this.state.timerSet}
-              onFinish={() => alert('finished')}
-              size={20}
-            />
         <Tab.Navigator>
-          <Tab.Screen name="Songs" component={Songs} />
-          <Tab.Screen name="Playlists" component={Playlists} />
-          <Tab.Screen name="Artists" component={Artists} />
-          <Tab.Screen name="Albums" component={Albums} />
+          <Tab.Screen name="Your List">
+            {props => <YourList {...props} playlist={this.state.playlist} time={this.state.timerSet} sendPlaylist={this.sendPlaylist}/>}
+          </Tab.Screen>
+          <Tab.Screen name="Songs">
+            {props => <Songs {...props} addSong={this.addSong}/>}
+          </Tab.Screen>
+          <Tab.Screen name="Playlists">
+            {props => <Playlists {...props}  />}
+          </Tab.Screen>
+          <Tab.Screen name="Artists">
+            {props => <Artists {...props}  />}
+          </Tab.Screen>
+          <Tab.Screen name="Albums">
+            {props => <Albums {...props}  />}
+          </Tab.Screen>
         </Tab.Navigator>
+    );
+  }
+}
+
+class YourList extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {playlist: this.props.playlist, time: this.props.time};
+    console.log(this.state.playlist);
+  }
+
+
+  render(){
+    return(
+      <View>
+        <View>
+          <CountDown
+            until={this.state.time}
+            onFinish={() => this.props.sendPlaylist}
+            size={20}/>
+        </View>
+        <View>
+          <Text> {this.state.playlist} </Text>
+        </View>
       </View>
     );
   }
 }
 
 class Songs extends React.Component{
-
   constructor(props) {
     super(props);
   }
@@ -53,7 +97,9 @@ class Songs extends React.Component{
            {
               library.songs.map((item, index) => (
                  <View key = {item.id}>
-                    <Text>{item.name}</Text>
+                    <TouchableHighlight onPress={()=> this.props.addSong(item.name)}>
+                      <Text>{item.name}</Text>
+                    </TouchableHighlight>
                  </View>
               ))
            }
@@ -64,6 +110,10 @@ class Songs extends React.Component{
 }
 
 class Playlists extends React.Component{
+  constructor(props) {
+      super(props);
+  }
+
   render(){
     return(
       <View>
