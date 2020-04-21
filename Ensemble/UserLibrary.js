@@ -11,15 +11,20 @@ const Tab = createBottomTabNavigator();
 export class UserLibrary extends React.Component{
   constructor(props){
     super(props);
-
+    var time = this.calcTime(parseInt(this.props.route.params.time));
+    this.state = {timerSet:time};
+    this.calcTime = this.calcTime.bind(this);
   }
 
+  calcTime(time) {
+    return time * 60;
+  }
   render(){
     return(
       <View>
           <View>
             <CountDown
-              until={route.params.time}
+              until={this.state.timerSet}
               onFinish={() => alert('finished')}
               size={20}
             />

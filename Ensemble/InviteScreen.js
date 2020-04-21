@@ -8,10 +8,21 @@ export class InviteScreen extends React.Component{
     this.state = {username: '', userList: [], time: ''};
     this.onInput = this.onInput.bind(this);
     this.handlePress = this.handlePress.bind(this);
+    this.handleNoTimeSet = this.handleNoTimeSet.bind(this);
   }
 
   handlePress () {
-    this.props.navigation.navigate('UserLibrary', {time:this.state.time});
+    var timeSet = this.state.time;
+    if (timeSet === ('')) {
+      this.handleNoTimeSet()
+    }
+    else {
+      this.props.navigation.navigate('UserLibrary', {time:timeSet});
+    }
+  }
+
+  handleNoTimeSet(){
+    alert('Please enter in a time');
   }
 
   onInput(){
@@ -35,7 +46,7 @@ export class InviteScreen extends React.Component{
           <Text> Add </Text>
         </TouchableHighlight>
         {this.state.userList.map(user => (<Text> {user} </Text>))}
-        <Text> Enter time limit </Text>
+        <Text> Enter time limit in minutes </Text>
         <TextInput
           placeholder="00:00:00"
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
