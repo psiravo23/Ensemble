@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableHighlight, Button } from 'react-native';
 
+import {styles} from './styles.js';
+
 export class InviteScreen extends React.Component{
 
   constructor (props) {

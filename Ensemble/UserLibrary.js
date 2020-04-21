@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {CountDown} from 'react-native-countdown-component';
 
 import {library} from './library.js'
+import {styles} from './styles.js'
 
 const Tab = createBottomTabNavigator();
 
@@ -21,22 +22,18 @@ export class UserLibrary extends React.Component{
   }
   render(){
     return(
-      <View>
-          <View>
-            <CountDown
+      <View style={styles.container}>
+        <CountDown
               until={this.state.timerSet}
               onFinish={() => alert('finished')}
               size={20}
             />
-          </View>
-          <View>
-            <Tab.Navigator>
-              <Tab.Screen name="Songs" component={Songs} />
-              <Tab.Screen name="Playlists" component={Playlists} />
-              <Tab.Screen name="Artists" component={Artists} />
-              <Tab.Screen name="Albums" component={Albums} />
-            </Tab.Navigator>
-          </View>
+        <Tab.Navigator>
+          <Tab.Screen name="Songs" component={Songs} />
+          <Tab.Screen name="Playlists" component={Playlists} />
+          <Tab.Screen name="Artists" component={Artists} />
+          <Tab.Screen name="Albums" component={Albums} />
+        </Tab.Navigator>
       </View>
     );
   }
