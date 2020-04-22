@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableHighlight, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { Button } from 'react-native-elements';
 
 import {inviteStyles} from './styles.js';
 
@@ -40,17 +41,15 @@ export class InviteScreen extends React.Component{
         <Text styles={inviteStyles.title}> Add friends to your Ensemble Group </Text>
         <TextInput
           placeholder="Enter spotify username"
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          style={inviteStyles.textInput}
           onChangeText={(text) => this.setState({username: text})}
           value={this.state.username}
         />
-        <TouchableHighlight onPress={this.onInput}>
-          <Text> Add </Text>
-        </TouchableHighlight>
+        <Button title="Add" onPress={this.onInput}/>
         {this.state.userList.map(user => (<Text> {user} </Text>))}
         <Text styles={inviteStyles.title}> Enter time limit in minutes </Text>
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          style={inviteStyles.textInput}
           onChangeText={(text) => this.setState({time: text})}
         />
         <Button title="Submit" onPress={this.handlePress}/>

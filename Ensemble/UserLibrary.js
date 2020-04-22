@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {CountDown} from 'react-native-countdown-component';
 
 import {library} from './library.js'
-import {styles} from './styles.js'
+import {userLibraryStyles} from './styles.js'
 
 const Tab = createBottomTabNavigator();
 
@@ -38,7 +38,6 @@ export class UserLibrary extends React.Component{
 
 
   render(){
-
     return(
         <Tab.Navigator>
           <Tab.Screen name="Your List">
@@ -64,14 +63,14 @@ export class UserLibrary extends React.Component{
 class YourList extends React.Component{
   constructor(props){
     super(props);
-    console.log(this.props.playlist);
     this.state = {playlist: this.props.playlist, time: this.props.time};
+    console.log(this.props.playlist);
   }
 
 
   render(){
     return(
-      <View>
+      <View style={userLibraryStyles.container}>
         <View>
           <CountDown
             until={this.state.time}
@@ -93,12 +92,12 @@ class Songs extends React.Component{
 
   render(){
     return(
-      <View>
+      <View style={userLibraryStyles.container}>
         <Text> Songs </Text>
         <ScrollView>
            {
               library.songs.map((item, index) => (
-                 <View key = {item.id}>
+                 <View key = {item.id}  style={userLibraryStyles.list}>
                     <TouchableHighlight onPress={()=> this.props.addSong(item.name)}>
                       <Text>{item.name}</Text>
                     </TouchableHighlight>
@@ -118,12 +117,12 @@ class Playlists extends React.Component{
 
   render(){
     return(
-      <View>
+      <View style={userLibraryStyles.container}>
         <Text> Playlists </Text>
         <ScrollView>
            {
               library.playlists.map((item, index) => (
-                 <View key = {item.id}>
+                 <View key = {item.id}  style={userLibraryStyles.list}>
                     <Text>{item.name}</Text>
                  </View>
               ))
@@ -138,12 +137,12 @@ class Playlists extends React.Component{
 class Artists extends React.Component{
   render(){
     return(
-      <View>
+      <View style={userLibraryStyles.container}>
         <Text> Artists </Text>
         <ScrollView>
            {
               library.artists.map((item, index) => (
-                 <View key = {item.id}>
+                 <View key = {item.id}  style={userLibraryStyles.list}>
                     <Text>{item.name}</Text>
                  </View>
               ))
@@ -157,12 +156,12 @@ class Artists extends React.Component{
 class Albums extends React.Component{
   render(){
     return(
-      <View>
+      <View style={userLibraryStyles.container}>
         <Text> Albums </Text>
         <ScrollView>
            {
               library.albums.map((item, index) => (
-                 <View key = {item.id}>
+                 <View key = {item.id}  style={userLibraryStyles.list}>
                     <Text>{item.name}</Text>
                  </View>
               ))

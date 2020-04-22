@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
+import {playlistStyles} from './styles.js';
+
 export class Playlist extends React.Component{
   constructor(props){
     super(props);
@@ -9,15 +11,17 @@ export class Playlist extends React.Component{
   }
   render(){
     return(
-      <ScrollView>
-         {
-            this.state.genPlaylist.map((item) => (
-               <View key = {item.id}>
-                    <Text>{item.song}</Text>
-               </View>
-            ))
-         }
-      </ScrollView>
+      <View style={playlistStyles.container}>
+        <ScrollView>
+           {
+              this.state.genPlaylist.map((item) => (
+                 <View key = {item.id}  style={playlistStyles.list}>
+                      <Text>{item.song}</Text>
+                 </View>
+              ))
+           }
+        </ScrollView>
+      </View>
     );
   }
 }
