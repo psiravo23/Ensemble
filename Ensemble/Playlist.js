@@ -9,7 +9,15 @@ export class Playlist extends React.Component{
   }
   render(){
     return(
-      <Text> {this.state.genPlaylist} </Text>
+      <ScrollView>
+         {
+            this.state.genPlaylist.map((item) => (
+               <View key = {item.id}>
+                    <Text>{item.song}</Text>
+               </View>
+            ))
+         }
+      </ScrollView>
     );
   }
 }

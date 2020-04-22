@@ -13,7 +13,7 @@ export class UserLibrary extends React.Component{
   constructor(props){
     super(props);
     var time = this.calcTime(parseInt(this.props.route.params.time));
-    this.state = {timerSet:time, playlist: []};
+    this.state = {timerSet:time, playlist: [], id: 0};
     this.calcTime = this.calcTime.bind(this);
     this.addSong = this.addSong.bind(this);
     this.sendPlaylist = this.sendPlaylist.bind(this);
@@ -25,9 +25,11 @@ export class UserLibrary extends React.Component{
 
   addSong(name) {
     var list = this.state.playlist;
-    list.push(name);
-    this.setState({playlist: list});
-    //console.log(this.state.playlist)
+    var tempId = this.state.id + 1;
+    var temp = {id:tempId, song:name};
+    list.push(temp);
+    this.setState({playlist: list, id:tempId});
+    console.log(this.state.playlist)
   }
 
   sendPlaylist(){
@@ -37,6 +39,7 @@ export class UserLibrary extends React.Component{
 
 
   render(){
+
     return(
         <Tab.Navigator>
           <Tab.Screen name="Your List">
@@ -62,8 +65,8 @@ export class UserLibrary extends React.Component{
 class YourList extends React.Component{
   constructor(props){
     super(props);
+    console.log(this.props.playlist);
     this.state = {playlist: this.props.playlist, time: this.props.time};
-    console.log(this.state.playlist);
   }
 
 
@@ -73,7 +76,7 @@ class YourList extends React.Component{
         <View>
           <CountDown
             until={this.state.time}
-            onFinish={() => this.props.sendPlaylist}
+            onFinish={() => this.props.sendPlaylist()}
             size={20}/>
         </View>
         <View>
