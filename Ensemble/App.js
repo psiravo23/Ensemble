@@ -15,7 +15,7 @@ export default class App extends React.Component {
   render(){
     return (
       <NavigationContainer>
-        <Stack.Navigator intialRouteName="Login">
+        <Stack.Navigator intialRouteName="Login" screenOptions={{headerShown: false}}>
           <Stack.Screen name="Login" component={LoginScreen}/>
           <Stack.Screen name="Invite" component={InviteScreen}/>
           <Stack.Screen name="UserLibrary" component={UserLibrary}/>

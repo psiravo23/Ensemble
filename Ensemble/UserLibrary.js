@@ -29,7 +29,6 @@ export class UserLibrary extends React.Component{
     var temp = {id:tempId, song:name};
     list.push(temp);
     this.setState({playlist: list, id:tempId});
-    console.log(this.state.playlist)
   }
 
   sendPlaylist(){
