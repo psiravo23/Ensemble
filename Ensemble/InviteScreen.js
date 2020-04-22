@@ -45,14 +45,14 @@ export class InviteScreen extends React.Component{
           onChangeText={(text) => this.setState({username: text})}
           value={this.state.username}
         />
-        <Button title="Add" onPress={this.onInput}/>
-        {this.state.userList.map(user => (<Text> {user} </Text>))}
+        <Button title="Add" onPress={this.onInput} buttonStyle={{backgroundColor:'#1ED761'}}/>
+        {this.state.userList.map(user => (<Text style={inviteStyles.usernameList}> {user} </Text>))}
         <Text styles={inviteStyles.title}> Enter time limit in minutes </Text>
         <TextInput
           style={inviteStyles.textInput}
           onChangeText={(text) => this.setState({time: text})}
         />
-        <Button title="Submit" onPress={this.handlePress}/>
+        <Button title="Submit" onPress={this.handlePress} buttonStyle={{backgroundColor:'#1ED761'}}/>
       </View>
     );
   }
