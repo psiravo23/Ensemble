@@ -82,6 +82,12 @@ export const playlistStyles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 45
   },
+  title: {
+    color: 'white',
+    fontSize: 30,
+    alignItems: 'center',
+    padding: 20
+  },
   list: {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -94,5 +100,8 @@ export const playlistStyles = StyleSheet.create({
    },
    listText:{
      color: 'white'
+   },
+   button: {
+     padding: 20
    }
 });

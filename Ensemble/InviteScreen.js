@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 
 import {inviteStyles} from './styles.js';

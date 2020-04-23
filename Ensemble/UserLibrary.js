@@ -46,8 +46,8 @@ export class UserLibrary extends React.Component{
               let iconName;
               let type = "material";
 
-              if (route.name === 'Your List'){
-                iconName = 'queue';
+              if (route.name === 'Timer'){
+                iconName = 'timer';
               }
               else if (route.name === 'Songs' ){
                 iconName = 'audiotrack';
@@ -72,8 +72,8 @@ export class UserLibrary extends React.Component{
               backgroundColor: '#1ED761'
             }}
           }>
-          <Tab.Screen name="Your List">
-            {props => <YourList {...props} playlist={this.state.playlist} time={this.state.timerSet} sendPlaylist={this.sendPlaylist}/>}
+          <Tab.Screen name="Timer">
+            {props => <Timer {...props} playlist={this.state.playlist} time={this.state.timerSet} sendPlaylist={this.sendPlaylist}/>}
           </Tab.Screen>
           <Tab.Screen name="Songs">
             {props => <Songs {...props} addSong={this.addSong}/>}
@@ -92,26 +92,22 @@ export class UserLibrary extends React.Component{
   }
 }
 
-class YourList extends React.Component{
+class Timer extends React.Component{
   constructor(props){
     super(props);
-    this.state = {playlist: this.props.playlist, time: this.props.time};
-    //console.log(this.props.playlist);
+    this.state = {time: this.props.time};
   }
 
 
   render(){
     return(
       <View style={userLibraryStyles.container}>
-        <View>
-          <CountDown
-            until={this.state.time}
-            onFinish={() => this.props.sendPlaylist()}
-            size={20}/>
-        </View>
-        <View>
-          <Text> {this.state.playlist} </Text>
-        </View>
+        <CountDown
+          until={this.state.time}
+          onFinish={() => this.props.sendPlaylist()}
+          size={30}
+          digitStyle={{backgroundColor: '#1ED761'}}
+          timeLabelStyle={{color: 'white'}}/>
       </View>
     );
   }
