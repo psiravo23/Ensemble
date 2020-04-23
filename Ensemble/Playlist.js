@@ -16,7 +16,7 @@ export class Playlist extends React.Component{
            {
               this.state.genPlaylist.map((item) => (
                  <View key = {item.id}  style={playlistStyles.list}>
-                      <Text>{item.song}</Text>
+                      <Text style={playlistStyles.listText}>{item.song}</Text>
                  </View>
               ))
            }

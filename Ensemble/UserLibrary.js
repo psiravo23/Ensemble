@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight } from 'react-na
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {CountDown} from 'react-native-countdown-component';
+import { Button, Icon } from 'react-native-elements';
 
 import {library} from './library.js'
 import {userLibraryStyles} from './styles.js'
@@ -39,7 +40,38 @@ export class UserLibrary extends React.Component{
 
   render(){
     return(
-        <Tab.Navigator>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+              let type = "material";
+
+              if (route.name === 'Your List'){
+                iconName = 'queue';
+              }
+              else if (route.name === 'Songs' ){
+                iconName = 'audiotrack';
+              }
+              else if (route.name === 'Playlists'){
+                iconName = 'playlist-play';
+                type = "MaterialCommunityIcons";
+              }
+              else if (route.name === 'Artists'){
+                iconName = 'person';
+              }
+              else if (route.name === 'Albums'){
+                iconName = 'album';
+              }
+              return <Icon type={type} name={iconName} size={size} color={color}/>;
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: 'blue',
+            inactiveTintColor: 'white',
+            style: {
+              backgroundColor: '#1ED761'
+            }}
+          }>
           <Tab.Screen name="Your List">
             {props => <YourList {...props} playlist={this.state.playlist} time={this.state.timerSet} sendPlaylist={this.sendPlaylist}/>}
           </Tab.Screen>
@@ -64,7 +96,7 @@ class YourList extends React.Component{
   constructor(props){
     super(props);
     this.state = {playlist: this.props.playlist, time: this.props.time};
-    console.log(this.props.playlist);
+    //console.log(this.props.playlist);
   }
 
 
@@ -93,14 +125,18 @@ class Songs extends React.Component{
   render(){
     return(
       <View style={userLibraryStyles.container}>
-        <Text> Songs </Text>
         <ScrollView>
            {
               library.songs.map((item, index) => (
                  <View key = {item.id}  style={userLibraryStyles.list}>
-                    <TouchableHighlight onPress={()=> this.props.addSong(item.name)}>
-                      <Text>{item.name}</Text>
-                    </TouchableHighlight>
+                    <Text style={userLibraryStyles.listText}>{item.name}</Text>
+                    <Button
+                      type="clear"
+                      onPress={()=> this.props.addSong(item.name)}
+                      icon={
+                        <Icon type="font-awesome" name="plus-square" color={'#1ED761'}/>
+                      }
+                    />
                  </View>
               ))
            }
@@ -118,12 +154,11 @@ class Playlists extends React.Component{
   render(){
     return(
       <View style={userLibraryStyles.container}>
-        <Text> Playlists </Text>
         <ScrollView>
            {
               library.playlists.map((item, index) => (
                  <View key = {item.id}  style={userLibraryStyles.list}>
-                    <Text>{item.name}</Text>
+                   <Text style={userLibraryStyles.listText}>{item.name}</Text>
                  </View>
               ))
            }
@@ -138,12 +173,11 @@ class Artists extends React.Component{
   render(){
     return(
       <View style={userLibraryStyles.container}>
-        <Text> Artists </Text>
         <ScrollView>
            {
               library.artists.map((item, index) => (
                  <View key = {item.id}  style={userLibraryStyles.list}>
-                    <Text>{item.name}</Text>
+                   <Text style={userLibraryStyles.listText}>{item.name}</Text>
                  </View>
               ))
            }
@@ -157,12 +191,11 @@ class Albums extends React.Component{
   render(){
     return(
       <View style={userLibraryStyles.container}>
-        <Text> Albums </Text>
         <ScrollView>
            {
               library.albums.map((item, index) => (
                  <View key = {item.id}  style={userLibraryStyles.list}>
-                    <Text>{item.name}</Text>
+                   <Text style={userLibraryStyles.listText}>{item.name}</Text>
                  </View>
               ))
            }
