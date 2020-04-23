@@ -38,7 +38,7 @@ export const inviteStyles = StyleSheet.create({
     color: 'white'
   },
   usernameList:{
-    fontSize: 10,
+    fontSize: 15,
     color: 'white'
   },
   textInput: {
@@ -46,7 +46,8 @@ export const inviteStyles = StyleSheet.create({
     height: 40,
     width: 250,
     borderColor: 'white',
-    borderWidth: 1
+    borderWidth: 1,
+    color: 'white',
   }
 });
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 
 import {playlistStyles} from './styles.js';
 
@@ -12,16 +13,23 @@ export class Playlist extends React.Component{
   render(){
     return(
       <View style={playlistStyles.container}>
-        <ScrollView>
-           {
-              this.state.genPlaylist.map((item) => (
-                 <View key = {item.id}  style={playlistStyles.list}>
-                      <Text style={playlistStyles.listText}>{item.song}</Text>
-                 </View>
-              ))
-           }
-        </ScrollView>
-      </View>
+          <View>
+            <ScrollView>
+               {
+                  this.state.genPlaylist.map((item) => (
+                     <View key = {item.id}  style={playlistStyles.list}>
+                          <Text style={playlistStyles.listText}>{item.song}</Text>
+                     </View>
+                  ))
+               }
+            </ScrollView>
+          </View>
+        <View>
+            <Button
+              title="Open in Spotify"
+            />
+        </View>
+    </View>
     );
   }
 }

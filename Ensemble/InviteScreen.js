@@ -38,16 +38,17 @@ export class InviteScreen extends React.Component{
   render(){
     return(
       <View style={inviteStyles.container}>
-        <Text styles={inviteStyles.title}> Add friends to your Ensemble Group </Text>
+        <Text style={inviteStyles.title}> Add friends to your Ensemble Group </Text>
         <TextInput
-          placeholder="Enter spotify username"
+          placeholder="Enter a spotify username"
           style={inviteStyles.textInput}
           onChangeText={(text) => this.setState({username: text})}
           value={this.state.username}
+          placeholderTextColor="white"
         />
         <Button title="Add" onPress={this.onInput} buttonStyle={{backgroundColor:'#1ED761'}}/>
         {this.state.userList.map(user => (<Text style={inviteStyles.usernameList}> {user} </Text>))}
-        <Text styles={inviteStyles.title}> Enter time limit in minutes </Text>
+        <Text style={inviteStyles.title}> Enter time limit in minutes </Text>
         <TextInput
           style={inviteStyles.textInput}
           onChangeText={(text) => this.setState({time: text})}
