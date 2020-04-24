@@ -32,7 +32,7 @@ export class Playlist extends React.Component{
               title="Open in Spotify"
               buttonStyle={{backgroundColor:'#1ED761'}}
             />
-        </View>s
+        </View>
     </View>
     );
   }

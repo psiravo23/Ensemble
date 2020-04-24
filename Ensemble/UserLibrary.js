@@ -21,7 +21,7 @@ export class UserLibrary extends React.Component{
   }
 
   calcTime(time) {
-    return time * 1;
+    return time * 60;
   }
 
   addSong(name) {
