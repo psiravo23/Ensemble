@@ -19,9 +19,8 @@ export class LoginScreen extends React.Component{
     return(
       <View style={loginStyles.container}>
         <Text style={loginStyles.title}> Welcome to Ensemble </Text>
-        <Text style={loginStyles.subTitle}> To get started, login with Spotify </Text>
         <Button
-          title="Login with Spotify"
+          title="Get Started"
           onPress={this.onClick}
           />
       </View>

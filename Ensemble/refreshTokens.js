@@ -1,11 +1,12 @@
 import { encode as btoa } from 'base-64';
 
-import {getUserData} from './handleUserData.js';
-import {setUserData} from './handleUserData.js';
 import {credentials} from './secrets.js';
+import {setUserData} from './handleUserData.js';
+import {getUserData} from './handleUserData.js';
 import {getTokens} from './getTokens.js';
 
-export const refreshTokens = async (result) => {
+
+export const refreshTokens = async () => {
   try {
     const credsB64 = btoa(`${credentials.clientId}:${credentials.clientSecret}`);
     const refreshToken = await getUserData('refreshToken');
@@ -18,8 +19,10 @@ export const refreshTokens = async (result) => {
       body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
     });
     const responseJson = await response.json();
+    //console.log(responseJson);
     if (responseJson.error) {
-      await getTokens(result);
+      await getTokens();
+      //console.log('finished getting tokens');
     } else {
       const {
         access_token: newAccessToken,
@@ -32,7 +35,7 @@ export const refreshTokens = async (result) => {
       if (newRefreshToken) {
         await setUserData('refreshToken', newRefreshToken);
       }
-      await setUserData('expirationTime', expirationTime);
+      await setUserData('expirationTime', JSON.stringify(expirationTime));
   }} catch (err) {
     console.error(err)
   }

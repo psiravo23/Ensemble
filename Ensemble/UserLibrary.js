@@ -21,15 +21,13 @@ export class UserLibrary extends React.Component{
   }
 
   calcTime(time) {
-    return time * 60;
+    return time * 1;
   }
 
-  addSong(name) {
+  addSong(track) {
     var list = this.state.playlist;
-    var tempId = this.state.id + 1;
-    var temp = {id:tempId, song:name};
-    list.push(temp);
-    this.setState({playlist: list, id:tempId});
+    list.push(track);
+    this.setState({playlist: list});
   }
 
   sendPlaylist(){
@@ -76,16 +74,16 @@ export class UserLibrary extends React.Component{
             {props => <Timer {...props} playlist={this.state.playlist} time={this.state.timerSet} sendPlaylist={this.sendPlaylist}/>}
           </Tab.Screen>
           <Tab.Screen name="Songs">
-            {props => <Songs {...props} addSong={this.addSong}/>}
+            {props => <Songs {...props} addSong={this.addSong} userSongs={this.props.songs}/>}
           </Tab.Screen>
           <Tab.Screen name="Playlists">
-            {props => <Playlists {...props}  />}
+            {props => <Playlists {...props} userPlaylists={this.props.playlists}/>}
           </Tab.Screen>
           <Tab.Screen name="Artists">
             {props => <Artists {...props}  />}
           </Tab.Screen>
           <Tab.Screen name="Albums">
-            {props => <Albums {...props}  />}
+            {props => <Albums {...props} userAlbums={this.props.albums}/>}
           </Tab.Screen>
         </Tab.Navigator>
     );
@@ -123,12 +121,12 @@ class Songs extends React.Component{
       <View style={userLibraryStyles.container}>
         <ScrollView>
            {
-              library.songs.map((item, index) => (
-                 <View key = {item.id}  style={userLibraryStyles.list}>
-                    <Text style={userLibraryStyles.listText}>{item.name}</Text>
+              this.props.userSongs.map((song) => (
+                 <View key={song.track.name} style={userLibraryStyles.list}>
+                    <Text style={userLibraryStyles.listText}>{song.track.name}</Text>
                     <Button
                       type="clear"
-                      onPress={()=> this.props.addSong(item.name)}
+                      onPress={()=> this.props.addSong(song.track)}
                       icon={
                         <Icon type="font-awesome" name="plus-square" color={'#1ED761'}/>
                       }
@@ -152,9 +150,9 @@ class Playlists extends React.Component{
       <View style={userLibraryStyles.container}>
         <ScrollView>
            {
-              library.playlists.map((item, index) => (
-                 <View key = {item.id}  style={userLibraryStyles.list}>
-                   <Text style={userLibraryStyles.listText}>{item.name}</Text>
+              this.props.userPlaylists.map((playlist) => (
+                 <View key = {playlist.added_at}  style={userLibraryStyles.list}>
+                   <Text style={userLibraryStyles.listText}>{playlist.name}</Text>
                  </View>
               ))
            }
@@ -189,9 +187,9 @@ class Albums extends React.Component{
       <View style={userLibraryStyles.container}>
         <ScrollView>
            {
-              library.albums.map((item, index) => (
-                 <View key = {item.id}  style={userLibraryStyles.list}>
-                   <Text style={userLibraryStyles.listText}>{item.name}</Text>
+              this.props.userAlbums.map((album) => (
+                 <View key = {album.added_at}  style={userLibraryStyles.list}>
+                   <Text style={userLibraryStyles.listText}>{album.name}</Text>
                  </View>
               ))
            }

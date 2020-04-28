@@ -19,9 +19,9 @@ export class Playlist extends React.Component{
             <Text style={playlistStyles.title}> Your Ensemble Playlist </Text>
             <ScrollView>
                {
-                  this.state.genPlaylist.map((item) => (
-                     <View key = {item.id}  style={playlistStyles.list}>
-                          <Text style={playlistStyles.listText}>{item.song}</Text>
+                  this.state.genPlaylist.map((song) => (
+                     <View key={song.name}  style={playlistStyles.list}>
+                          <Text style={playlistStyles.listText}>{song.name}</Text>
                      </View>
                   ))
                }

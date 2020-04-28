@@ -10,10 +10,12 @@ export const setUserData = async (key, value) => {
 };
 
 export const getUserData = async (key) =>{
+  var response;
   try {
-    await AsyncStorage.getItem(key);
+    response = await AsyncStorage.getItem(key);
   }
   catch (err){
     console.log(err);
   }
+  return response;
 }
