@@ -4,24 +4,44 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 
 import {inviteStyles} from './styles.js';
+import {getUserData} from './handleUserData.js';
 
 export class InviteScreen extends React.Component{
 
   constructor (props) {
     super(props);
-    this.state = {username: '', userList: [], time: ''};
+    this.state = {username: '', userList: [], time: '', playlistName: '', playlistId: ''};
     this.onInput = this.onInput.bind(this);
     this.handlePress = this.handlePress.bind(this);
     this.handleNoTimeSet = this.handleNoTimeSet.bind(this);
   }
 
-  handlePress () {
+  async handlePress () {
     var timeSet = this.state.time;
+    var playlistName = this.state.playlistName;
     if (timeSet === ('')) {
       this.handleNoTimeSet()
     }
+    else if (playlistName === ('')){
+      alert("Please enter in a playlist name");
+    }
     else {
-      this.props.navigation.navigate('UserLibrary', {time:timeSet});
+      var accessToken = await getUserData('accessToken');
+      var userUrl = 'https://api.spotify.com/v1/me';
+      var userId;
+      var playlistId;
+      await fetch(userUrl, {method: 'GET', headers: {'Authorization': 'Bearer ' + accessToken}})
+        .then((res) => res.json())
+          .then((json) => {
+            userId = json.id;
+          })
+      var playlistUrl = `https://api.spotify.com/v1/users/${userId}/playlists`;
+      await fetch(playlistUrl, {method: 'POST', headers: {'Authorization': 'Bearer ' + accessToken, 'Content-Type': 'application/json'}, body: JSON.stringify({'name': playlistName})})
+        .then((res) => res.json())
+          .then((json) => {
+            playlistId = json.id;
+          })
+      this.props.navigation.navigate('UserLibrary', {time:timeSet, playlistId: playlistId});
     }
   }
 
@@ -53,6 +73,11 @@ export class InviteScreen extends React.Component{
         <TextInput
           style={inviteStyles.textInput}
           onChangeText={(text) => this.setState({time: text})}
+        />
+        <Text style={inviteStyles.title}> Playlist Name </Text>
+        <TextInput
+          style={inviteStyles.textInput}
+          onChangeText={(name) => this.setState({playlistName: name})}
         />
         <Button title="Submit" onPress={this.handlePress} buttonStyle={{backgroundColor:'#1ED761'}}/>
       </View>

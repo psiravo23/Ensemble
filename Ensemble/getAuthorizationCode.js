@@ -2,7 +2,7 @@ import * as AuthSession from 'expo-auth-session';
 
 import {credentials} from './secrets.js';
 
-const scopesArr = ['user-library-read','playlist-modify-public'];
+const scopesArr = ['user-library-read','playlist-modify-public', 'user-follow-read', 'user-read-private'];
 const scopes = scopesArr.join(' ');
 
 export const getAuthorizationCode = async () => {

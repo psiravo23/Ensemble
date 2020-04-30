@@ -14,7 +14,8 @@ export class UserLibrary extends React.Component{
   constructor(props){
     super(props);
     var time = this.calcTime(parseInt(this.props.route.params.time));
-    this.state = {timerSet:time, playlist: [], id: 0};
+    var playlistId = this.props.route.params.playlistId;
+    this.state = {timerSet:time, playlist: [], playlistId: playlistId};
     this.calcTime = this.calcTime.bind(this);
     this.addSong = this.addSong.bind(this);
     this.sendPlaylist = this.sendPlaylist.bind(this);
@@ -32,7 +33,8 @@ export class UserLibrary extends React.Component{
 
   sendPlaylist(){
     var list = this.state.playlist;
-    this.props.navigation.navigate('Playlist', {playlist: list});
+    var id = this.state.playlistId;
+    this.props.navigation.navigate('Playlist', {playlist: list, playlistId: id});
   }
 
 
@@ -80,7 +82,7 @@ export class UserLibrary extends React.Component{
             {props => <Playlists {...props} userPlaylists={this.props.playlists}/>}
           </Tab.Screen>
           <Tab.Screen name="Artists">
-            {props => <Artists {...props}  />}
+            {props => <Artists {...props} userArtists={this.props.artists}/>}
           </Tab.Screen>
           <Tab.Screen name="Albums">
             {props => <Albums {...props} userAlbums={this.props.albums}/>}
@@ -151,7 +153,7 @@ class Playlists extends React.Component{
         <ScrollView>
            {
               this.props.userPlaylists.map((playlist) => (
-                 <View key = {playlist.added_at}  style={userLibraryStyles.list}>
+                 <View key = {playlist.id}  style={userLibraryStyles.list}>
                    <Text style={userLibraryStyles.listText}>{playlist.name}</Text>
                  </View>
               ))
@@ -169,9 +171,9 @@ class Artists extends React.Component{
       <View style={userLibraryStyles.container}>
         <ScrollView>
            {
-              library.artists.map((item, index) => (
-                 <View key = {item.id}  style={userLibraryStyles.list}>
-                   <Text style={userLibraryStyles.listText}>{item.name}</Text>
+              this.props.userArtists.map((artist) => (
+                 <View key = {artist.name}  style={userLibraryStyles.list}>
+                   <Text style={userLibraryStyles.listText}>{artist.name}</Text>
                  </View>
               ))
            }
@@ -189,7 +191,7 @@ class Albums extends React.Component{
            {
               this.props.userAlbums.map((album) => (
                  <View key = {album.added_at}  style={userLibraryStyles.list}>
-                   <Text style={userLibraryStyles.listText}>{album.name}</Text>
+                   <Text style={userLibraryStyles.listText}>{album.album.name}</Text>
                  </View>
               ))
            }

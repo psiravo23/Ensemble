@@ -70,6 +70,12 @@ export default class App extends React.Component {
             .then((json) => {
               this.setUserPlaylists(json.items);
             })
+      var artistsUrl = 'https://api.spotify.com/v1/me/following?type=artist';
+      await fetch (artistsUrl, {method: 'GET', headers: {'Authorization': 'Bearer ' + accessToken}})
+          .then((res) => res.json())
+            .then((json) => {
+              this.setUserArtists(json.artists.items);
+            })
     }
   }
 
@@ -81,7 +87,8 @@ export default class App extends React.Component {
           <Stack.Screen name="Login" component={LoginScreen}/>
           <Stack.Screen name="Invite" component={InviteScreen}/>
           <Stack.Screen name="UserLibrary">
-            {props => <UserLibrary {...props} songs={this.state.userSongs} albums={this.state.userAlbums} playlists={this.state.userPlaylists}/>}
+            {props => <UserLibrary {...props} songs={this.state.userSongs} albums={this.state.userAlbums} playlists={this.state.userPlaylists} artists={this.state.userArtists
+            }/>}
           </Stack.Screen>
           <Stack.Screen name="Playlist" component={Playlist}/>
         </Stack.Navigator>
