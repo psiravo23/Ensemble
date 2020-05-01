@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 
@@ -59,27 +59,29 @@ export class InviteScreen extends React.Component{
   render(){
     return(
       <View style={inviteStyles.container}>
-        <Text style={inviteStyles.title}> Add friends to your Ensemble Group </Text>
-        <TextInput
-          placeholder="Enter a spotify username"
-          style={inviteStyles.textInput}
-          onChangeText={(text) => this.setState({username: text})}
-          value={this.state.username}
-          placeholderTextColor="white"
-        />
-        <Button title="Add" onPress={this.onInput} buttonStyle={{backgroundColor:'#1ED761'}}/>
-        {this.state.userList.map(user => (<Text style={inviteStyles.usernameList}> {user} </Text>))}
-        <Text style={inviteStyles.title}> Enter time limit in minutes </Text>
-        <TextInput
-          style={inviteStyles.textInput}
-          onChangeText={(text) => this.setState({time: text})}
-        />
-        <Text style={inviteStyles.title}> Playlist Name </Text>
-        <TextInput
-          style={inviteStyles.textInput}
-          onChangeText={(name) => this.setState({playlistName: name})}
-        />
-        <Button title="Submit" onPress={this.handlePress} buttonStyle={{backgroundColor:'#1ED761'}}/>
+        <ScrollView style={inviteStyles.scroll}>
+          <Text style={inviteStyles.title}> Add friends to your Ensemble Group </Text>
+          <TextInput
+            placeholder="Enter a spotify username"
+            style={inviteStyles.textInput}
+            onChangeText={(text) => this.setState({username: text})}
+            value={this.state.username}
+            placeholderTextColor="white"
+          />
+          <Button title="Add" onPress={this.onInput} buttonStyle={{backgroundColor:'#1ED761'}}/>
+          {this.state.userList.map(user => (<Text style={inviteStyles.usernameList}> {user} </Text>))}
+          <Text style={inviteStyles.title}> Enter time limit in minutes </Text>
+          <TextInput
+            style={inviteStyles.textInput}
+            onChangeText={(text) => this.setState({time: text})}
+          />
+          <Text style={inviteStyles.title}> Playlist Name </Text>
+          <TextInput
+            style={inviteStyles.textInput}
+            onChangeText={(name) => this.setState({playlistName: name})}
+          />
+          <Button title="Submit" onPress={this.handlePress} buttonStyle={{backgroundColor:'#1ED761'}}/>
+        </ScrollView>
       </View>
     );
   }

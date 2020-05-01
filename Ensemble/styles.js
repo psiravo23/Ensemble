@@ -33,9 +33,14 @@ export const inviteStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  scroll:{
+    flex:1,
+    paddingTop: 100,
+  },
   title: {
     fontSize: 20,
-    color: 'white'
+    color: 'white',
+    textAlign: 'center'
   },
   usernameList:{
     fontSize: 15,
@@ -44,7 +49,7 @@ export const inviteStyles = StyleSheet.create({
   textInput: {
     margin: 15,
     height: 40,
-    width: 250,
+    width: 280,
     borderColor: 'white',
     borderWidth: 1,
     color: 'white',
@@ -104,11 +109,9 @@ export const playlistStyles = StyleSheet.create({
    button: {
      padding: 20,
      backgroundColor:'#1ED761',
-   },
-   button2: {
-     padding: 20,
-     alignItems: 'center',
      position: 'absolute',
      bottom: 0,
+     margin: 20,
+     marginLeft: 100
    }
 });

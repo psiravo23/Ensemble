@@ -62,13 +62,11 @@ export class Playlist extends React.Component{
               ))
            }
         </ScrollView>
-        <View style={playlistStyles.button2}>
-          <Button
-            title="Open in Spotify"
-            buttonStyle={{padding: 20, backgroundColor:'#1ED761', position: 'absolute', bottom: 0}}
-            onPress={this.openSpotify}
-          />
-        </View>
+        <Button
+          title="Open in Spotify"
+          buttonStyle={playlistStyles.button}
+          onPress={this.openSpotify}
+        />
       </View>
     );
   }

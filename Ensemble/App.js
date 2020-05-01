@@ -76,6 +76,7 @@ export default class App extends React.Component {
               this.setUserArtists(json.artists.items);
             })
     }
+  //  AsyncStorage.clear();
   }
 
 
