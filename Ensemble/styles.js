@@ -103,6 +103,12 @@ export const playlistStyles = StyleSheet.create({
    },
    button: {
      padding: 20,
-     backgroundColor:'#1ED761'
+     backgroundColor:'#1ED761',
+   },
+   button2: {
+     padding: 20,
+     alignItems: 'center',
+     position: 'absolute',
+     bottom: 0,
    }
 });

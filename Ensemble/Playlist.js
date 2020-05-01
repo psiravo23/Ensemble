@@ -11,12 +11,16 @@ export class Playlist extends React.Component{
     super(props);
     var list = this.props.route.params.playlist;
     var id = this.props.route.params.playlistId;
-    this.state = {genPlaylist: list, finalPlaylist: [], playlistId: id};
+    this.state = {genPlaylist: list, playlistId: id};
     this.openSpotify = this.openSpotify.bind(this);
+    this.randomize = this.randomize.bind(this);
   }
 
   async componentDidMount () {
     var accessToken = await getUserData('accessToken');
+    var randPlaylist = this.state.genPlaylist;
+    this.randomize(randPlaylist);
+
     var uri =[];
     this.state.genPlaylist.map((song) => {
       uri.push(song.uri);
@@ -25,6 +29,18 @@ export class Playlist extends React.Component{
     var playlistId = this.state.playlistId;
     var genPlaylistUrl = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`
     await fetch(genPlaylistUrl, {method: 'POST', headers: {'Authorization': 'Bearer ' + accessToken, 'Content-Type': 'application/json'}, body: JSON.stringify({'uris': uri})});
+  }
+
+  randomize(uri){
+    for (var x=0; x < uri.length-1; x++){
+      var rand = Math.floor(Math.random()*uri.length);
+      var temp = uri[x];
+      uri[x] = uri[rand];
+      uri[rand] = temp;
+    }
+
+    this.setState({genPlaylist: uri})
+    return uri;
   }
 
   async openSpotify (){
@@ -36,26 +52,24 @@ export class Playlist extends React.Component{
   render(){
     return(
       <View style={playlistStyles.container}>
-          <View>
-            <Text style={playlistStyles.title}> Your Ensemble Playlist </Text>
-            <ScrollView>
-               {
-                  this.state.genPlaylist.map((song) => (
-                     <View key={song.name}  style={playlistStyles.list}>
-                          <Text style={playlistStyles.listText}>{song.name}</Text>
-                     </View>
-                  ))
-               }
-            </ScrollView>
-          </View>
-        <View style={playlistStyles.button}>
-            <Button
-              title="Open in Spotify"
-              buttonStyle={{backgroundColor:'#1ED761'}}
-              onPress={this.openSpotify}
-            />
+        <Text style={playlistStyles.title}> Your Ensemble Playlist </Text>
+        <ScrollView>
+           {
+              this.state.genPlaylist.map((song) => (
+                 <View key={song.name}  style={playlistStyles.list}>
+                      <Text style={playlistStyles.listText}>{song.name}</Text>
+                 </View>
+              ))
+           }
+        </ScrollView>
+        <View style={playlistStyles.button2}>
+          <Button
+            title="Open in Spotify"
+            buttonStyle={{padding: 20, backgroundColor:'#1ED761', position: 'absolute', bottom: 0}}
+            onPress={this.openSpotify}
+          />
         </View>
-    </View>
+      </View>
     );
   }
 }
